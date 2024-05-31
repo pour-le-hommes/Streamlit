@@ -7,9 +7,11 @@ import google.generativeai as genai
 import os
 from utils.myskills_singleton import MyData
 from utils.database import init_db
+from utils.navbar import Navbar
 
-st.set_page_config(page_title="Biji ayam 2", page_icon=None, layout="centered", initial_sidebar_state="collapsed", menu_items=None)
+st.set_page_config(page_title="My Skills Chatbot", page_icon=None, layout="centered", initial_sidebar_state="collapsed", menu_items=None)
 
+Navbar()
 st.markdown(
     """
     <style>

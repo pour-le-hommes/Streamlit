@@ -3,8 +3,10 @@ import pandas as pd
 from utils.database import init_db
 import time
 from utils.myskills_singleton import MyData
+from utils.navbar import Navbar
 
 singletonInstance = MyData()
+Navbar()
 
 def skillspage():
     st.title("My Skills Progression")
@@ -42,3 +44,5 @@ def skillspage():
 
     time.sleep(3)
     success.empty()
+
+skillspage()
