@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from pages.skillspage import skillspage
+from pages.skills import skillspage
 
 def homepage():
     st.logo("data/itb.jpg")
