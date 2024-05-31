@@ -8,8 +8,33 @@ import os
 from utils.myskills_singleton import MyData
 from utils.database import init_db
 
-load_dotenv()
+st.set_page_config(page_title="Biji ayam 2", page_icon=None, layout="centered", initial_sidebar_state="collapsed", menu_items=None)
 
+st.markdown(
+    """
+    <style>
+    .message-container {
+        background-color: black;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        word-wrap: break-word;
+    }
+    .user-message {
+        background-color: white;
+        color: black;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        word-wrap: break-word;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+load_dotenv()
 singletonInstance = MyData()
 
 skills = singletonInstance.localskills()
@@ -65,19 +90,22 @@ if 'history' not in st.session_state:
     st.session_state.history = []
 
 
+if st.session_state.history:
+    for interaction in st.session_state.history:
+        st.markdown(f"<div class='user-message'><b>Oga Takashi:</b> {interaction['user']}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='message-container'><b>Torch Bearer:</b> {interaction['bot']}</div>", unsafe_allow_html=True)
+
 user_input = st.text_input("You: ", "")
 if st.button("Send"):
     if user_input:
         response = generate_response(user_input)
         st.session_state.history.append({"user": user_input, "bot": response})
+        st.experimental_rerun()
 
-if st.session_state.history:
-    for interaction in st.session_state.history:
-        st.markdown(f"<p style='color:black; background-color:white; padding: 10px; border-radius: 5px'><b>Oga Takashi:</b>{interaction['user']}</p>", unsafe_allow_html=True)
-        st.markdown(f"<p style='color:white; background-color:black; padding: 10px; border-radius: 5px'><b>Torch Bearer:</b>{interaction['bot']}</p>", unsafe_allow_html=True)
-        # st.write(f"You: {interaction['user']}")
-        # st.write(f"Chatbot: {interaction['bot']}")
-
+# if st.session_state.history:
+#     for interaction in st.session_state.history:
+#         st.markdown(f"<p style='color:black; background-color:white; padding: 10px; border-radius: 5px'><b>Oga Takashi: </b>{interaction['user']}</p>", unsafe_allow_html=True)
+#         st.markdown(f"<p style='color:white; background-color:black; padding: 10px; border-radius: 5px'><b>Torch Bearer: </b>{interaction['bot']}</p>", unsafe_allow_html=True)
 
 print("="*50)
 try:
