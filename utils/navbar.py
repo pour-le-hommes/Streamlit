@@ -11,3 +11,4 @@ def Navbar():
     with st.sidebar:
         st.page_link('pages/home.py', label='Individual Checker', icon='🔥')
         st.page_link('pages/skillspage.py', label='Skills', icon='🛡️')
+        st.page_link('pages/chatbot.py', label='Chatbot', icon='💯')

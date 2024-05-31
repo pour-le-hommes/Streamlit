@@ -1,2 +1,5 @@
-[Client]
+[client]
 showSidebarNavigation = false
+
+[server]
+folderWatchBlacklist = ['pages']
