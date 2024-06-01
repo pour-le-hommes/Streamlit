@@ -7,7 +7,7 @@ def main():
     # builds the sidebar menu
     Navbar()
 
-    st.title(f'🔥 Individual Checker')
+    st.title(f'🔥 My Main Page')
     homepage()
 
     # your content

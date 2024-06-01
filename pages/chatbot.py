@@ -8,49 +8,24 @@ import os
 from utils.myskills_singleton import MyData
 from utils.database import init_db
 from utils.navbar import Navbar
-
-st.set_page_config(page_title="My Skills Chatbot", page_icon=None, layout="centered", initial_sidebar_state="collapsed", menu_items=None)
-
+from utils.Chatbot_config import *
+page_config()
 Navbar()
-st.markdown(
-    """
-    <style>
-    .message-container {
-        background-color: black;
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        word-wrap: break-word;
-    }
-    .user-message {
-        background-color: white;
-        color: black;
-        padding: 10px;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        word-wrap: break-word;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+text_format()
 
-load_dotenv()
-singletonInstance = MyData()
+skills = MyData.skills_retrieval()
 
-skills = singletonInstance.localskills()
-if skills == None:
-    db = init_db()
-    response = db.table('LifeRPG_Skills').select("name","desc","level","exp","currentLevelExp","untilNextLevelExp").execute()
-    singletonInstance.input_localskills(response.data)
-    skills = response.data
+# Functions
+def user_input():
+    todo = st.session_state["user_input"] + '\n'
+    st.session_state["new_todo"] = ""
 
+# Configuration
 genai.configure(api_key = st.secrets["GEMINI"])
-
 st.title("My Skills Discussion Chatbot")
 st.write("Talk regarding my Skill System and how it works!")
 
+## Load Gemini
 with st.spinner('Loading Gemini Model'):
     model = genai.GenerativeModel("gemini-1.0-pro") # gemini-1.5-pro gemini-1.5-flash gemini-1.0-pro
 success_model = st.success('Loaded Gemini Successfully!')
@@ -97,22 +72,11 @@ if st.session_state.history:
         st.markdown(f"<div class='user-message'><b>Oga Takashi:</b> {interaction['user']}</div>", unsafe_allow_html=True)
         st.markdown(f"<div class='message-container'><b>Torch Bearer:</b> {interaction['bot']}</div>", unsafe_allow_html=True)
 
-user_input = st.text_input("You: ", "")
+user_input = st.text_input(label="You:",placeholder="Write your message",on_change=user_input,key="user_input")
 if st.button("Send"):
     if user_input:
         response = generate_response(user_input)
         st.session_state.history.append({"user": user_input, "bot": response})
         st.experimental_rerun()
 
-# if st.session_state.history:
-#     for interaction in st.session_state.history:
-#         st.markdown(f"<p style='color:black; background-color:white; padding: 10px; border-radius: 5px'><b>Oga Takashi: </b>{interaction['user']}</p>", unsafe_allow_html=True)
-#         st.markdown(f"<p style='color:white; background-color:black; padding: 10px; border-radius: 5px'><b>Torch Bearer: </b>{interaction['bot']}</p>", unsafe_allow_html=True)
-
-print("="*50)
-try:
-    print(st.session_state.history)
-except:
-    print("History empty")
-print("="*50)
 success_model.empty()
