@@ -8,10 +8,11 @@ import os
 from utils.myskills_singleton import MyData
 from utils.database import init_db
 from utils.navbar import Navbar
-from utils.Chatbot_config import *
+from utils.Chatbot_config import page_config
+from utils.password import check_password
 page_config()
 Navbar()
-text_format()
+check_password()
 temperature = st.sidebar.slider("Temperature",0.95,0.0,1.0)
 with st.sidebar.expander("ℹ️ What do I mean"):
     st.caption("""
@@ -99,7 +100,7 @@ if "messages" not in st.session_state:
 
 if "max_messages" not in st.session_state:
     # Counting both user and assistant messages, so 10 rounds of conversation
-    st.session_state.max_messages = 30
+    st.session_state.max_messages = 20
 
 for message in st.session_state.messages:
     if message["role"] == "user":
@@ -109,13 +110,13 @@ for message in st.session_state.messages:
         with st.chat_message(message["role"],avatar="data/287981.jpg"):
             st.markdown(message["content"])
 
-# if len(st.session_state.messages) >= st.session_state.max_messages:
-#     st.info(
-#         """Notice: The maximum message limit for this demo version has been reached. We value your interest!
-#         We encourage you to experience further interactions by building your own application with instructions
-#         from Streamlit's [Build a basic LLM chat app](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)
-#         tutorial. Thank you for your understanding."""
-#     )
+if len(st.session_state.messages) >= st.session_state.max_messages:
+    st.info(
+        """Notice: The maximum message limit for this demo version has been reached. We value your interest!
+        We encourage you to experience further interactions by building your own application with instructions
+        from Streamlit's [Build a basic LLM chat app](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)
+        tutorial. Thank you for your understanding."""
+    )
 
 else:
     if prompt := st.chat_input("What is up?"):
@@ -129,19 +130,19 @@ else:
             st.session_state.messages.append(
                 {"role": "assistant", "content": response}
             )
-            # try:
-            #     stream = generate_response(prompt=prompt)
-            #     response = st.write_stream(stream)
-            #     st.session_state.messages.append(
-            #         {"role": "assistant", "content": response}
-            #     )
-            # except:
-            #     st.session_state.max_messages = len(st.session_state.messages)
-            #     rate_limit_message = """
-            #         Oops! Sorry, I can't talk now. Too many people have used
-            #         this service recently.
-            #     """
-            #     st.session_state.messages.append(
-            #         {"role": "assistant", "content": rate_limit_message}
-            #     )
-            #     st.rerun()
+            try:
+                stream = generate_response(prompt=prompt)
+                response = st.write_stream(stream)
+                st.session_state.messages.append(
+                    {"role": "assistant", "content": response}
+                )
+            except:
+                st.session_state.max_messages = len(st.session_state.messages)
+                rate_limit_message = """
+                    Oops! Sorry, I can't talk now. Too many people have used
+                    this service recently.
+                """
+                st.session_state.messages.append(
+                    {"role": "assistant", "content": rate_limit_message}
+                )
+                st.rerun()
