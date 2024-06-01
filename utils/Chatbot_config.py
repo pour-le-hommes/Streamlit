@@ -1,7 +1,7 @@
 import streamlit as st
 
 def page_config():
-    st.set_page_config(page_title="My Skills Chatbot", page_icon=None, layout="centered", initial_sidebar_state="collapsed", menu_items=None)
+    st.set_page_config(page_title="TERRA", page_icon=None, layout="centered", initial_sidebar_state="collapsed", menu_items=None)
 
 def text_format():
     st.markdown(
