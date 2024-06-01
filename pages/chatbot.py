@@ -46,7 +46,7 @@ if skills == None:
     singletonInstance.input_localskills(response.data)
     skills = response.data
 
-genai.configure(api_key = os.getenv("GEMINI"))
+genai.configure(api_key = st.secrets["GEMINI"])
 
 st.title("My Skills Discussion Chatbot")
 st.write("Talk regarding my Skill System and how it works!")
