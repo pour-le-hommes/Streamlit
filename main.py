@@ -3,10 +3,9 @@ from utils.navbar import Navbar
 from pages.skills import skillspage
 
 from utils.password import check_password
-check_password()
 
 st.set_page_config(page_title="Main Page", page_icon=None, layout="centered", initial_sidebar_state="auto", menu_items=None)
-
+check_password()
 def main():
     Navbar()
 
