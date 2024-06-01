@@ -1,3 +1,5 @@
+from utils.database import init_db
+
 class MyData(object):
     _instance = None
     def __new__(class_, *args, **kwargs):
@@ -23,3 +25,15 @@ class MyData(object):
     def input_localskills(self,skills):
         self._localskills = skills
         return "Skills have been stored"
+    
+    def skills_retrieval():
+        singletonInstance = MyData()
+
+        skills = singletonInstance.localskills()
+        if skills == None:
+            db = init_db()
+            response = db.table('LifeRPG_Skills').select("name","desc","level","exp","currentLevelExp","untilNextLevelExp").execute()
+            singletonInstance.input_localskills(response.data)
+            skills = response.data
+
+        return skills

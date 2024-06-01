@@ -1,2 +1,5 @@
 .env
 .venv
+/.streamlit/secrets.toml
+/pages/__pycache__
+/utils/__pycache__
