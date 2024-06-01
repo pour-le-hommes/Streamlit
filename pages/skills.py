@@ -42,7 +42,7 @@ def skillspage():
 
     st.bar_chart(df,x="name",y="level", width=100,height=500,color="#c14a09")
 
-    time.sleep(3)
+    time.sleep(1.5)
     success.empty()
 
 skillspage()

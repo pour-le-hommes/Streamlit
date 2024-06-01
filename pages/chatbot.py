@@ -9,26 +9,57 @@ from utils.myskills_singleton import MyData
 from utils.database import init_db
 from utils.navbar import Navbar
 from utils.Chatbot_config import *
+from utils.password import check_password
 page_config()
 Navbar()
 text_format()
 
+st.title("My Skills Discussion Chatbot")
+st.write("Talk regarding my Skill System and how it works!")
+
+st.divider()
+check_password()
+
 skills = MyData.skills_retrieval()
 
+if 'chat_history' not in st.session_state:
+    st.session_state['chat_history'] = []
+
 # Functions
-def user_input():
-    todo = st.session_state["user_input"] + '\n'
-    st.session_state["new_todo"] = ""
+def send_message():
+    if st.session_state['user_input']:
+        # Add user message to history
+        st.session_state['chat_history'].insert(0, f"You: {st.session_state['user_input']}")
+        # Simulate bot response with typing effect
+        response = generate_response(prompt=st.session_state['user_input'])
+
+        simulate_typing(f"Bot: {response}")
+        st.session_state['user_input'] = ""
+
+def display_chat_history():
+    st.container()
+    for message in st.session_state["history"]:
+        st.write(message)
+
+def simulate_typing(message):
+    response = ""
+    for char in message:
+        response += char
+        # Clear the current response text and append the next character
+        st.session_state["history"][0] = response
+        # Display chat history
+        display_chat_history()
+        time.sleep(0.05)  # Adjust the speed of typing here
 
 # Configuration
 genai.configure(api_key = st.secrets["GEMINI"])
-st.title("My Skills Discussion Chatbot")
-st.write("Talk regarding my Skill System and how it works!")
 
 ## Load Gemini
 with st.spinner('Loading Gemini Model'):
     model = genai.GenerativeModel("gemini-1.0-pro") # gemini-1.5-pro gemini-1.5-flash gemini-1.0-pro
 success_model = st.success('Loaded Gemini Successfully!')
+time.sleep(0.5)
+success_model.empty()
 
 # Function to generate response
 @st.cache_data(show_spinner=False)
@@ -55,12 +86,12 @@ Each skill within the "LifeUp" system is associated with a set of titles that re
     # 'mime_type': 'image/png',
     # 'data': pathlib.Path('data/skills_table.png').read_bytes()
     # }
-
-    response = model.generate_content(
-        [input_prompt,prompt],
-        stream=True
-    )
-    response.resolve()
+    with st.spinner("Waiting Torch Bearer's response"):
+        response = model.generate_content(
+            [input_prompt,prompt],
+            stream=True
+        )
+        response.resolve()
     return response.text
 
 if 'history' not in st.session_state:
@@ -70,13 +101,11 @@ if 'history' not in st.session_state:
 if st.session_state.history:
     for interaction in st.session_state.history:
         st.markdown(f"<div class='user-message'><b>Oga Takashi:</b> {interaction['user']}</div>", unsafe_allow_html=True)
+        temp_text = simulate_typing(interaction['bot'])
+        temp_text = ""
         st.markdown(f"<div class='message-container'><b>Torch Bearer:</b> {interaction['bot']}</div>", unsafe_allow_html=True)
 
-user_input = st.text_input(label="You:",placeholder="Write your message",on_change=user_input,key="user_input")
-if st.button("Send"):
-    if user_input:
-        response = generate_response(user_input)
-        st.session_state.history.append({"user": user_input, "bot": response})
-        st.experimental_rerun()
 
-success_model.empty()
+display_chat_history()
+
+st.chat_input("Type your message:", key='user_input')
