@@ -45,4 +45,5 @@ def check_password():
 
 
 if not check_password():
+    st.write("Don't mind if there's an error, I have no fucking clue why.")
     st.stop()

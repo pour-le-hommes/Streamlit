@@ -13,9 +13,7 @@ page_config()
 Navbar()
 text_format()
 temperature = st.sidebar.slider("Temperature",0.95,0.0,1.0)
-
-st.title("What I imagine talking to a TERRA is like")
-with st.expander("ℹ️ What do I mean"):
+with st.sidebar.expander("ℹ️ What do I mean"):
     st.caption("""
 I have a custom GPT that I liked to talked to when I'm feeling tired or burnt out. I don't really need motivational
 speechs or anything like that, but I do like being told how lazy I am
@@ -26,9 +24,19 @@ The tone will be stern and demanding, reflecting the discipline expected from a 
 The Torchbearer will provide specific, actionable advice tailored to the user's situation, pushing them towards
 their objectives and reminding them of the importance of unwavering dedication and discipline.
                
-P.S. You can change the temperature on the side bar. This will change how the GPT will respond to you, usually
+P.S. You can use the temperature to change Torch. This will change how the GPT will respond to you, usually
 making it less... smart
 """)
+
+st.title("What I imagine talking to a TERRA is like")
+with st.expander("ℹ️ Disclaimer"):
+    st.caption("""
+Given this is for my funny-haha business. I'm not responsible for the output of the LLM.
+Don't take everything to heart, don't be easily offended, and take the information with a grain of salt.
+               
+I won't be responsible if you're called a weakling or anything else.
+""")
+
 
 skills = MyData.skills_retrieval()
 

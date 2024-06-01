@@ -9,8 +9,14 @@ import plotly.graph_objects as go
 Navbar()
 
 st.title("Data Pengangguran Indonesia from Badan Pusat Statistik (BPS)")
-with st.expander("ℹ️ Disclaimer! Please Read"):
-    st.caption("The plot from 1986 to the latest year from the BPS API. Citation at the bottom of the page for me to not to get sued by BPS.")
+with st.expander("ℹ️ Disclaimer! Please Read",expanded=True):
+    st.caption("""
+The plot from is years vs percentage(%) from the BPS API. I am directly using the BPS API and given BPS won't take
+responsibility if there's misinformation or virus on the website, I too won't take any accountability for any
+misinformation in the data or (somehow) there's a virus somewhere along your journey in my website.
+
+Citation at the bottom of the page for me to not to get sued by BPS.
+""")
 
 
 if 'pengangguran' not in st.session_state:
