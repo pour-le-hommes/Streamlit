@@ -4,12 +4,18 @@ import streamlit as st
 
 def check_password():
     """Returns `True` if the user had a correct password."""
+    if "wrong_counter" not in st.session_state:
+        st.session_state["wrong_counter"] = 0
+
+    if st.session_state["wrong_counter"] >3:
+        st.error("Too many wrong answers. Lmao")
+        st.stop()
 
     def login_form():
         """Form with widgets to collect user information"""
         with st.form("Credentials"):
-            st.text_input("Username", key="username")
-            st.text_input("Password", type="password", key="password")
+            st.text_input("Untuk Tuhan,", key="username")
+            st.text_input("dan", type="password", key="password")
             st.form_submit_button("Log in", on_click=password_entered)
 
     def password_entered():
@@ -25,6 +31,7 @@ def check_password():
             del st.session_state["username"]
         else:
             st.session_state["password_correct"] = False
+            st.session_state["wrong_counter"] = st.session_state["wrong_counter"]+1
 
     # Return True if the username + password is validated.
     if st.session_state.get("password_correct", False):
