@@ -1,15 +1,18 @@
 import streamlit as st
 
 def Navbar():
+    if "password_correct" not in st.session_state:
+        st.session_state["password_correct"] = False
     with st.sidebar:
         st.page_link('main.py', label='Home page', icon='🔥')
         st.page_link('pages/skills.py', label='Skills', icon='🛡️')
         st.page_link('pages/terra.py', label='TERRA Impersonator', icon='💯')
         st.page_link('pages/indonesia_data.py', label="Indonesia's Data", icon='🇮🇩')
-        st.page_link('pages/admin.py', label="Admin", icon='🔒')
-        if st.button("Clear terminal?"):
-            for i in range(50):
-                print("")
+        if st.session_state["password_correct"]==True:
+            st.page_link('pages/admin.py', label="Admin", icon='🔒')
+            if st.button("Clear terminal?"):
+                for i in range(50):
+                    print("")
         # st.page_link('pages/password.py', label="Password Entry", icon='🧭')
 
 def RadioChart():

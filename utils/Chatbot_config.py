@@ -39,7 +39,7 @@ def text_stream(text, delay=0.003):
         yield " "
 
 
-@st.cache_data(show_spinner=True)
+@st.cache_data(show_spinner=False)
 def generate_response(prompt,temperature_model=1,_image=None,max_tokens = 100,input_prompt = None):
     system_prompt = f"""
     The Torchbearer of Enlightened Paths, embodying the essence of a Navy SEAL instructor and Stoic philosophy,
@@ -79,7 +79,7 @@ def generate_response(prompt,temperature_model=1,_image=None,max_tokens = 100,in
     with st.spinner("Waiting Torch Bearer's response"):
         response = model_used.generate_content(
             contents=full_inputs,
-            
+
             generation_config=genai.types.GenerationConfig(
                 # Only one candidate for now.
                 candidate_count=1,

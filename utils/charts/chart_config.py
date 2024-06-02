@@ -73,3 +73,11 @@ Predictive Insights:
 If the birth rate increases, competition for school enrollment will rise, leading to more uneducated children if schools don't expand.
 """
     return prompt
+
+def announcement():
+    yay = st.markdown(":green[Great news! LLM Analysis of Graph] :blue-background[Wait for the graph to finish and scroll down! 👇]")
+    return yay
+
+def llm_note():
+    cap = st.caption("**I'm not rich, this is just a single prompt from the default image, but it's neat right? 😎**")
+    return cap

@@ -1,11 +1,12 @@
 import streamlit as st
 import numpy as np
 import time
-from utils.charts.chart_config import get_pengangguran, to_image, system_prompt
+from utils.charts.chart_config import get_pengangguran, to_image, system_prompt, announcement, llm_note
 from utils.Chatbot_config import generate_response, text_stream
 import plotly.graph_objects as go
 
 def pengangguran_chart():
+    horray = announcement()
 
     if 'pengangguran' not in st.session_state:
         st.session_state["pengangguran"] = get_pengangguran()
@@ -75,18 +76,20 @@ def pengangguran_chart():
 
         st.button("Re-run")
 
-        pillow_image = to_image(figure=fig)
+        with st.spinner("Processing Graph"):
+            pillow_image = to_image(figure=fig)
+            horray.empty()
 
         st.header("What's Torch's opinion?")
         if st.session_state["pengangguran_prompt"]== "Nothing":
             user_prompt = f"Please explain this graph for me, the title is {title_name} with the x-axis being\
                 years and the y-axis being percentage of people in the population"
             result = generate_response(prompt=user_prompt,_image=pillow_image,max_tokens=1000,input_prompt=system_prompt())
-            
+
             st.session_state["pengangguran_prompt"] = result
         
         st.write_stream(text_stream(st.session_state["pengangguran_prompt"]))
-        st.caption("I'm not rich, this is just a single prompt, but it's neat right? :D")
+        llm_note()
     else:
         st.text("""
     You didn't put anything in. What are you doing?

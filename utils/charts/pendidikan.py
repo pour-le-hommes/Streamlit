@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from utils.charts.chart_config import chart_else, to_image, system_prompt
+from utils.charts.chart_config import chart_else, to_image, system_prompt,announcement,llm_note
 from utils.Chatbot_config import generate_response, text_stream
 import numpy as np
 import plotly.graph_objects as go
@@ -9,6 +9,7 @@ import time
 def pendidikan_chart():
 
     st.write("Last Updated: 2 June 2024")
+    horray = announcement()
     # Configurations
     if 'pendidikan' not in st.session_state:
         raw_df = pd.read_csv("data/Indikator_Pendidikan.csv")
@@ -89,8 +90,9 @@ def pendidikan_chart():
 
             st.button("Re-run")
 
-
-            pillow_image = to_image(figure=fig)
+            with st.spinner("Processing Graph"):
+                horray.empty()
+                pillow_image = to_image(figure=fig)
 
             st.header("What's Torch's opinion?")
             if st.session_state["pendidikan_prompt"]== "Nothing":
@@ -101,7 +103,7 @@ def pendidikan_chart():
                 st.session_state["pendidikan_prompt"] = result
             
             st.write_stream(text_stream(st.session_state["pendidikan_prompt"]))
-            st.caption("I'm not rich, this is just a single prompt, but it's neat right? :D")
+            llm_note()
 
         else:
             chart_else()
