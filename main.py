@@ -19,8 +19,6 @@ def main():
 
     if page == "Home":
         home()
-    elif page == "My Skills":
-        skillspage()
     elif page == "First Portfolio":
         st.write("Lmao, fucking none")
 

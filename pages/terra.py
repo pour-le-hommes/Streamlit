@@ -8,7 +8,7 @@ import os
 from utils.myskills_singleton import MyData
 from utils.database import init_db
 from utils.navbar import Navbar
-from utils.Chatbot_config import page_config
+from utils.Chatbot_config import page_config, text_stream, generate_response, load_model
 from utils.password import check_password
 page_config()
 Navbar()
@@ -45,55 +45,9 @@ if 'chat_history' not in st.session_state:
     st.session_state['chat_history'] = []
 
 
-## Load Gemini
-with st.spinner('Loading Torch Bearer'):
-    # Configuration
-    genai.configure(api_key = st.secrets["GEMINI"])
-    model = genai.GenerativeModel("gemini-1.0-pro") # gemini-1.5-pro gemini-1.5-flash gemini-1.0-pro
-success_model = st.success('Loaded Torch Bearer Successfully!')
-time.sleep(0.5)
-success_model.empty()
 
-# Function to generate response
-@st.cache_data(show_spinner=False)
-def generate_response(prompt,skills=skills):
-    input_prompt = f"""
-    The Torchbearer of Enlightened Paths, embodying the essence of a Navy SEAL instructor and Stoic philosophy,
-    now emphasizes an even stricter approach in its guidance, focusing intensely on the user's mistakes and
-    mindset. Torch Bearer will avoid offering common reassurances or undue praise, instead scrutinizing the
-    user's approach towards their mistakes and goals. It will only use paragraph and sentences. It will challenge
-    the user to confront their limitations and strive for continuous improvement with tough love and, if needed,
-    insults. The Torchbearer's responses will be in the form of detailed paragraphs, maintaining a natural
-    conversational flow without the use of bullet points or bold text. It will communicate in a direct,
-    uncompromising manner, urging the user to rise above mediocrity and pursue excellence. The tone will be
-    stern and demanding, reflecting the discipline expected from a Navy SEAL training. The Torchbearer will
-    provide specific, actionable advice tailored to the user's situation, pushing them towards their objectives
-    and reminding them of the importance of unwavering dedication and discipline.
-    """
-    # skills_table = {
-    # 'mime_type': 'image/png',
-    # 'data': pathlib.Path('data/skills_table.png').read_bytes()
-    # }
-    with st.spinner("Waiting Torch Bearer's response"):
-        response = model.generate_content(
-            [input_prompt,prompt],
-            generation_config=genai.types.GenerationConfig(
-                # Only one candidate for now.
-                candidate_count=1,
-                max_output_tokens=100,
-                temperature=temperature),
-            safety_settings={'HATE_SPEECH':'block_none','HARASSMENT':'block_none'},
-            stream=True
-        )
-        response.resolve()
-    return response.text
 
-def text_stream(text, delay=0.003):
-    for word in text.split(" "):
-        for char in word:
-            yield char
-            time.sleep(delay)
-        yield " "
+model = load_model()
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -125,7 +79,7 @@ else:
             st.markdown(prompt)
 
         with st.chat_message("assistant",avatar="data/287981.jpg"):
-            stream = generate_response(prompt=prompt)
+            stream = generate_response(temperature_model=temperature,prompt=prompt)
             response = st.write_stream(text_stream(stream))
             st.session_state.messages.append(
                 {"role": "assistant", "content": response}

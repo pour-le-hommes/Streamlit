@@ -1,13 +1,17 @@
 import streamlit as st
 import numpy as np
 import time
-from utils.charts.chart_config import get_pengangguran
+from utils.charts.chart_config import get_pengangguran, to_image, system_prompt
+from utils.Chatbot_config import generate_response, text_stream
 import plotly.graph_objects as go
 
 def pengangguran_chart():
 
     if 'pengangguran' not in st.session_state:
         st.session_state["pengangguran"] = get_pengangguran()
+
+    if "pengangguran_prompt" not in st.session_state:
+        st.session_state["pengangguran_prompt"] = "Nothing" 
 
     json_file = st.session_state["pengangguran"]
 
@@ -40,8 +44,9 @@ def pengangguran_chart():
         year_range = np.arange(*range_picked)
 
         fig = go.Figure()
+        title_name = "Pengangguran "+", ".join(options)+" Tahun "+ str(year_range[0]) +" hingga "+str(year_range[-1])
         fig.update_layout(
-            title="Pengangguran "+", ".join(options)+" Tahun "+ str(year_range[0]) +" hingga "+str(year_range[-1]),
+            title=title_name,
             xaxis_title="Year",
             yaxis_title="Percentage (%)",
         )
@@ -69,6 +74,19 @@ def pengangguran_chart():
             time.sleep(0.1)  # Adjust the sleep time as needed
 
         st.button("Re-run")
+
+        pillow_image = to_image(figure=fig)
+
+        st.header("What's Torch's opinion?")
+        if st.session_state["pengangguran_prompt"]== "Nothing":
+            user_prompt = f"Please explain this graph for me, the title is {title_name} with the x-axis being\
+                years and the y-axis being percentage of people in the population"
+            result = generate_response(prompt=user_prompt,_image=pillow_image,max_tokens=1000,input_prompt=system_prompt())
+            
+            st.session_state["pengangguran_prompt"] = result
+        
+        st.write_stream(text_stream(st.session_state["pengangguran_prompt"]))
+        st.caption("I'm not rich, this is just a single prompt, but it's neat right? :D")
     else:
         st.text("""
     You didn't put anything in. What are you doing?
