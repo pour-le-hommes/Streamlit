@@ -31,7 +31,7 @@ def text_format():
     unsafe_allow_html=True
     )
 
-def text_stream(text, delay=0.1):
+def text_stream(text, delay=0.003):
     for word in text.split(" "):
         for char in word:
             yield char
