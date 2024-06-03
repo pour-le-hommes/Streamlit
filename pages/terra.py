@@ -13,6 +13,7 @@ from utils.password import check_password
 page_config()
 Navbar()
 check_password()
+
 temperature = st.sidebar.slider("Temperature",0.95,0.0,1.0)
 with st.sidebar.expander("ℹ️ What do I mean"):
     st.caption("""
@@ -54,7 +55,7 @@ if "messages" not in st.session_state:
 
 if "max_messages" not in st.session_state:
     # Counting both user and assistant messages, so 10 rounds of conversation
-    st.session_state.max_messages = 20
+    st.session_state.max_messages = 50
 
 for message in st.session_state.messages:
     if message["role"] == "user":
@@ -71,7 +72,6 @@ if len(st.session_state.messages) >= st.session_state.max_messages:
         from Streamlit's [Build a basic LLM chat app](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)
         tutorial. Thank you for your understanding."""
     )
-
 else:
     if prompt := st.chat_input("What is up?"):
         st.session_state.messages.append({"role": "user", "content": prompt})
@@ -79,14 +79,14 @@ else:
             st.markdown(prompt)
 
         with st.chat_message("assistant",avatar="data/287981.jpg"):
-            stream = generate_response(temperature_model=temperature,prompt=prompt)
-            response = st.write_stream(text_stream(stream))
-            st.session_state.messages.append(
-                {"role": "assistant", "content": response}
-            )
+            # stream = generate_response(temperature_model=temperature,prompt=prompt)
+            # response = st.write_stream(text_stream(stream))
+            # st.session_state.messages.append(
+            #     {"role": "assistant", "content": response}
+            # )
             try:
                 stream = generate_response(prompt=prompt)
-                response = st.write_stream(stream)
+                response = st.write_stream(text_stream(stream))
                 st.session_state.messages.append(
                     {"role": "assistant", "content": response}
                 )

@@ -1,12 +1,20 @@
 import streamlit as st
 import numpy as np
 import time
-from utils.charts.chart_config import get_pengangguran, to_image, system_prompt, announcement, llm_note
+from utils.charts.chart_config import get_pengangguran, to_image, system_prompt, announcement, llm_note,subpage_session
 from utils.Chatbot_config import generate_response, text_stream
 import plotly.graph_objects as go
 
 def pengangguran_chart():
     horray = announcement()
+    subpage_session("pengangguran")
+
+    if "pengangguran_messages" not in st.session_state:
+        st.session_state.pengangguran_messages = []
+
+    if "pengangguran_max_messages" not in st.session_state:
+        # Counting both user and assistant messages, so 10 rounds of conversation
+        st.session_state.max_messages = 20
 
     if 'pengangguran' not in st.session_state:
         st.session_state["pengangguran"] = get_pengangguran()
@@ -72,7 +80,7 @@ def pengangguran_chart():
             # Update the chart
             chart.plotly_chart(fig, use_container_width=True)
 
-            time.sleep(0.1)  # Adjust the sleep time as needed
+            time.sleep(0.05)  # Adjust the sleep time as needed
 
         st.button("Re-run")
 
@@ -81,15 +89,20 @@ def pengangguran_chart():
             horray.empty()
 
         st.header("What's Torch's opinion?")
-        if st.session_state["pengangguran_prompt"]== "Nothing":
+        if st.button("Want to find out?"):
+            
             user_prompt = f"Please explain this graph for me, the title is {title_name} with the x-axis being\
                 years and the y-axis being percentage of people in the population"
+            st.session_state.pengangguran_messages.append(
+                        {"role": "user", "content": fig}
+                    )
             result = generate_response(prompt=user_prompt,_image=pillow_image,max_tokens=1000,input_prompt=system_prompt())
-
-            st.session_state["pengangguran_prompt"] = result
-        
-        st.write_stream(text_stream(st.session_state["pengangguran_prompt"]))
-        llm_note()
+            st.session_state.pengangguran_messages.append(
+                        {"role": "assistant", "content": result}
+                    )
+            
+            st.write_stream(text_stream(result,delay=0.03))
+            llm_note()
     else:
         st.text("""
     You didn't put anything in. What are you doing?
