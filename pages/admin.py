@@ -8,15 +8,17 @@ import time
 Navbar()
 check_password()
 
+if "todo_table" not in st.session_state or "todo_column_config" not in st.session_state:
+    with st.spinner("Loading to do list"):
+        check_todos()
+        get_column_config()
+
 with st.sidebar:
     add_sidebar()
         
 
 st.title("My Todos")
 st.caption("Things I need to do for my website")
-with st.spinner("Loading to do list"):
-    check_todos()
-    get_column_config()
 
 db_table_config = st.session_state["todo_column_config"]
 db_table = st.session_state["todo_table"]

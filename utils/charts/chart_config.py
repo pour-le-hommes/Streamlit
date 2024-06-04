@@ -49,8 +49,7 @@ def to_image(figure : go.Figure):
         image_bytes = figure.to_image(format="png",engine="kaleido")
 
         return image_bytes
-    except Exception as e:
-        st.write(f"Error converting figure to image: {e}")
+    except:
         return None
     
 
@@ -81,3 +80,19 @@ def announcement():
 def llm_note():
     cap = st.caption("**I'm not rich, this is just a single prompt from the default image, but it's neat right? 😎**")
     return cap
+
+
+def subpage_session(subpage:str):
+    if 'pengangguran_page' not in st.session_state:
+        st.session_state["pengangguran_page"] = False
+
+    if 'pendidikan_page' not in st.session_state:
+        st.session_state["pendidikan_page"] = False
+
+
+    if subpage == "pengangguran":
+        st.session_state["pengangguran_page"]=True
+        st.session_state["pendidikan_page"] = False
+    else:
+        st.session_state["pendidikan_page"]=True
+        st.session_state["pengangguran_page"] = False

@@ -18,8 +18,9 @@ def main():
         st.info("What do I have in store for you? Scroll down 👇")
 
         st.header("*Badan Pusat Statistik Graph* with LLM Analysis")
-        st.image("data/pendidikan.png")
-        st.image("data/pengangguran.png")
+        with st.expander("Images"):
+            st.image("data/pendidikan.png")
+            st.image("data/pengangguran.png")
 
         st.header("**Personal Chatbot** (so long as you know the password 😆)")
         st.image("data/terra_chatbot.png")
