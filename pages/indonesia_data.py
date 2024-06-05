@@ -32,8 +32,6 @@ elif st.session_state["pendidikan_page"]==True:
 if "first_time" not in st.session_state:
     st.session_state["first_time"]=False
 
-print(st.session_state.chart_message)
-
 if st.session_state.chart_message!=[] and st.session_state.chart_message!=None:
     st.session_state["first_time"]=True
     st.page_link("pages/chat_discussion.py", label='Continue discussion?', icon='🗨️')
