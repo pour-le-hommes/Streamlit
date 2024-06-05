@@ -1,6 +1,9 @@
 import streamlit as st
 from utils.Chatbot_config import generate_response, text_stream
 from utils.charts.chart_config import system_prompt
+from utils.navbar import Navbar
+
+Navbar()
 
 
 if st.session_state["first_time"]==True:

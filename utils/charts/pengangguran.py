@@ -102,7 +102,7 @@ def pengangguran_chart():
                     )
             
             st.write_stream(text_stream(result,delay=0.03))
-            llm_note()
+        llm_note()
     else:
         st.text("""
     You didn't put anything in. What are you doing?
