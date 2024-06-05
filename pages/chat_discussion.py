@@ -21,7 +21,7 @@ if st.session_state["first_time"]==True:
             st.markdown(prompt)
 
         with st.chat_message("model",avatar="data/287981.jpg"):
-            stream = generate_response(prompt=prompt,context_chat=st.session_state.chart_message,input_prompt=system_prompt())
+            stream = generate_response(prompt=prompt,context_chat=st.session_state.chart_message,input_prompt=system_prompt(),max_tokens=100)
             response = st.write_stream(text_stream(stream,delay=0.03))
             st.session_state.chart_message.append(
                 {"role": "model", "parts": response}
