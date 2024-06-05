@@ -6,6 +6,8 @@ from utils.Chatbot_config import generate_response, text_stream
 
 Navbar()
 result = RadioChart()
+if "chart_message" not in st.session_state:
+    st.session_state.chart_message=None
 
 st.title(f"Data {result.title()} Indonesia")
 st.caption("from Badan Pusat Statistik (BPS)")
@@ -30,51 +32,16 @@ elif st.session_state["pendidikan_page"]==True:
 if "first_time" not in st.session_state:
     st.session_state["first_time"]=False
 
-if st.session_state.chart_message!=[]:
-    if st.button("Continue to chat?",type="primary"):
-        st.session_state["first_time"]=True
-    if st.session_state["first_time"]==True:
-        for message in st.session_state.chart_message:
-            if message["role"] == "user":
-                with st.chat_message(message["role"],avatar="data/itb.jpg"):
-                    if type(message["content"]) == str:
-                        st.markdown(message["content"])
-                    else:
-                        st.plotly_chart(message["content"])
-            else:
-                with st.chat_message(message["role"],avatar="data/287981.jpg"):
-                    st.markdown(message["content"])
+print(st.session_state.chart_message)
 
-        if prompt := st.chat_input("What is up?"):
-            st.session_state.chart_message.append({"role": "user", "content": prompt})
-            # with st.chat_message("user",avatar="data/itb.jpg"):
-            #     st.markdown(prompt)
+if st.session_state.chart_message!=[] and st.session_state.chart_message!=None:
+    st.session_state["first_time"]=True
+    st.page_link("pages/chat_discussion.py", label='Continue discussion?', icon='🗨️')
 
-            with st.chat_message("assistant",avatar="data/287981.jpg"):
-                # stream = generate_response(prompt=prompt)
-                # response = st.write_stream(text_stream(stream))
-                # st.session_state.chart_message.append(
-                #     {"role": "assistant", "content": response}
-                # )
-                try:
-                    stream = generate_response(prompt=prompt)
-                    response = st.write_stream(text_stream(stream))
-                    st.session_state.chart_message.append(
-                        {"role": "assistant", "content": response}
-                    )
-                except:
-                    st.session_state.max_messages = len(st.session_state.chart_message)
-                    rate_limit_message = """
-                        Oops! Sorry, I can't talk now. Too many people have used
-                        this service recently.
-                    """
-                    st.session_state.chart_message.append(
-                        {"role": "assistant", "content": rate_limit_message}
-                    )
-    else:
-        st.divider()
-        st.text("""
-        Sitasi:
-        Badan Pusat Statistik Jakarta Pusat , 2024. Statistik Indonesia Tahun 2024. Jakarta
-        Pusat : Badan Pusat Statistik
-        """)
+else:
+    st.divider()
+    st.text("""
+    Sitasi:
+    Badan Pusat Statistik Jakarta Pusat , 2024. Statistik Indonesia Tahun 2024. Jakarta
+    Pusat : Badan Pusat Statistik
+    """)

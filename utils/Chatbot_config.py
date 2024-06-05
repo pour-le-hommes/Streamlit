@@ -40,7 +40,7 @@ def text_stream(text, delay=0.1):
 
 
 @st.cache_data(show_spinner=False)
-def generate_response(prompt,temperature_model=1,_image=None,max_tokens = 100,input_prompt = None):
+def generate_response(prompt,context_chat:list[dict]=None,temperature_model=1,_image=None,max_tokens = 100,input_prompt = None):
     system_prompt = f"""
     The Torchbearer of Enlightened Paths, embodying the essence of a Navy SEAL instructor and Stoic philosophy,
     now emphasizes an even stricter approach in its guidance, focusing intensely on the user's mistakes and
@@ -75,11 +75,11 @@ def generate_response(prompt,temperature_model=1,_image=None,max_tokens = 100,in
     else:
         model_used = load_model()
 
-
     with st.spinner("Waiting Torch Bearer's response"):
-        response = model_used.generate_content(
-            contents=full_inputs,
-
+        if context_chat!=None:
+            model_used = model_used.start_chat(history=context_chat)
+        response = model_used.send_message(
+            content=full_inputs,
             generation_config=genai.types.GenerationConfig(
                 # Only one candidate for now.
                 candidate_count=1,
@@ -98,6 +98,7 @@ def load_model(model_name = "gemini-1.0-pro"):
         # Configuration
         genai.configure(api_key = st.secrets["GEMINI"])
         model = genai.GenerativeModel(model_name) # gemini-1.5-pro gemini-1.5-flash gemini-1.0-pro
+        model.start_chat
     success_model = st.success('Loaded Torch Bearer Successfully!')
     time.sleep(0.5)
     success_model.empty()

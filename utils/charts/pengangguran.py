@@ -13,7 +13,7 @@ def pengangguran_chart():
         st.session_state.pengangguran_messages = []
 
     if "pengangguran_max_messages" not in st.session_state:
-        # Counting both user and assistant messages, so 10 rounds of conversation
+        # Counting both user and model messages, so 10 rounds of conversation
         st.session_state.max_messages = 20
 
     if 'pengangguran' not in st.session_state:
@@ -94,11 +94,11 @@ def pengangguran_chart():
             user_prompt = f"Please explain this graph for me, the title is {title_name} with the x-axis being\
                 years and the y-axis being percentage of people in the population"
             st.session_state.pengangguran_messages.append(
-                        {"role": "user", "content": fig}
+                        {"role": "user", "parts": fig}
                     )
-            result = generate_response(prompt=user_prompt,_image=pillow_image,max_tokens=1000,input_prompt=system_prompt())
+            result = generate_response(prompt=user_prompt,context_chat=st.session_state.chart_message,_image=pillow_image,max_tokens=1000,input_prompt=system_prompt())
             st.session_state.pengangguran_messages.append(
-                        {"role": "assistant", "content": result}
+                        {"role": "model", "parts": result}
                     )
             
             st.write_stream(text_stream(result,delay=0.03))
