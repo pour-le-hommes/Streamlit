@@ -3,3 +3,9 @@ showSidebarNavigation = false
 
 [server]
 folderWatchBlacklist = ['pages']
+
+[theme]
+base="dark"
+primaryColor="#FF2828"
+secondaryBackgroundColor="#1f1f1f"
+font="monospace"

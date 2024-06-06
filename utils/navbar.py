@@ -9,12 +9,12 @@ def Navbar():
         st.page_link('pages/terra.py', label='TERRA Impersonator', icon='💯')
         st.page_link('pages/indonesia_data.py', label="Indonesia's Data", icon='🇮🇩')
         with st.expander("Experimental"):
-            st.page_link("pages/cloudflare.py", label="Testing Cloudflare LLMs", icon='☁️')
+            st.page_link("pages/cloudflare_main_page.py", label="Testing Cloudflare LLMs", icon='☁️')
         if st.session_state["password_correct"]==True:
             st.page_link('pages/admin.py', label="Admin", icon='🔒')
-            if st.button("Clear terminal?"):
-                for i in range(50):
-                    print("")
+        if st.button("Clear terminal?"):
+            for _ in range(50):
+                print("")
         # st.page_link('pages/password.py', label="Password Entry", icon='🧭')
 
 def RadioChart():
