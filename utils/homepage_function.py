@@ -3,6 +3,8 @@ from utils.cloudflare.text_generation import text_generation
 from utils.Chatbot_config import text_stream
 import asyncio
 from streamlit_extras.stylable_container import stylable_container
+from streamlit_extras.row import row
+import streamlit_shadcn_ui as ui
 
 def run_async_task(task):
     loop = asyncio.new_event_loop()
@@ -88,54 +90,56 @@ On this website, you'll find a showcase of my projects, facilitated by Python's 
     return default
 
 async def first_project(proj1):
-    full_text = """<h2>Badan Pusat Statistik Graph with LLM Analysis</h2>
+    full_text = """<h2>🏆 Badan Pusat Statistik Graph with LLM Analysis</h2>
 
 <medium>Dive Deep into Education and Unemployment Data</medium>
 
 <regular>Content:</regular>
 
-<regular>1. Charts and graphs with real-time data</regular>
+<regular>► Charts and graphs with real-time data</regular>
 
-<regular>2. Explanation of how the data is collected and processed</regular>
+<regular>► Explanation of how the data is collected and processed</regular>
 
-<regular>3. Integration with Gemini's LLM for further discussion</regular>
+<regular>► Integration with Gemini's LLM for further discussion</regular>
 """
-
-    proj1.write_stream(text_stream(full_text,delay=0.03,type="word"))
+    st.session_state.first_proj = full_text
+    proj1.write_stream(text_stream(full_text,delay=0.01,type="word"))
     proj1.markdown(f"{full_text}",unsafe_allow_html=True)
 
 async def second_project(proj2):
-    full_text = """<h2>Harnessing the Power of Cloudflare's AI</h2>
+    full_text = """<h2>🏆 Harnessing the Power of Cloudflare's AI</h2>
 
 <medium>Explore 35 Customizable LLMs</medium>
 
 <regular>Content:</regular>
 
-<regular>1. Overview of the integration</regular>
+<regular>► Overview of the integration</regular>
 
-<regular>2. Detailed description of the features (e.g., history, hyperparameters)</regular>
+<regular>► Detailed description of the features (e.g., history, hyperparameters)</regular>
 
-<regular>3. How companies can utilize these models</regular>
+<regular>► How companies can utilize these models</regular>
 """
-    proj2.write_stream(text_stream(full_text,delay=0.03,type="word"))
-    proj2.markdown(f"<h1>{full_text}</h1>",unsafe_allow_html=True)
-    
+    st.session_state.second_proj = full_text
+
+    proj2.write_stream(text_stream(full_text,delay=0.01,type="word"))
+    proj2.markdown(f"{full_text}",unsafe_allow_html=True)
 
 async def third_project(proj3):
-    full_text = """<h2>Personal Chatbot</h2>
+    full_text = """<h2>🏆 Personal Chatbot</h2>
 
 <medium>How is it like to talk to TERRA?</medium>
 
 <regular>Content:</regular>
 
-<regular>1. Overview of the integration</regular>
+<regular>► Overview of the integration</regular>
 
-<regular>2. Detailed description of the features (e.g., history, hyperparameters)</regular>
+<regular>► Detailed description of the features (e.g., history, hyperparameters)</regular>
 
-<regular>3. How companies can utilize these models</regular>
+<regular>► How companies can utilize these models</regular>
 """
-    proj3.write_stream(text_stream(full_text,delay=0.03,type="word"))
-    proj3.markdown(f"<h1>{full_text}</h1>",unsafe_allow_html=True)
+    st.session_state.third_proj = full_text
+    proj3.write_stream(text_stream(full_text,delay=0.01,type="word"))
+    proj3.markdown(f"{full_text}",unsafe_allow_html=True)
 
 
 async def project_list(prod1,prod2,prod3):
@@ -145,10 +149,11 @@ async def project_list(prod1,prod2,prod3):
         third_project(prod3)
     )
 
-def change_state():
-    st.session_state.first_home = True
 
-def show_more():
+def change_state_2():
+    st.session_state.second_home = True
+
+def show_more_more():
     with stylable_container(
         key="show_more",
         css_styles="""
@@ -160,43 +165,32 @@ def show_more():
                 transition-duration: 0.4s;
             }
             button:hover {
-            background-color: #f44336;
+            background-color: green;
             color: white;
             }
             """,
     ):
-        st.button("Show more",on_click=change_state)
+        st.button("Still curious?",on_click=change_state_2,type="secondary")
 
 def show_tips():
     st.write_stream(text_stream("if you have colleague from ITB, ask them lmao.",delay=0.03))
-    st.write_stream(text_stream("Orrr just google 'Bagi kami, untukmu. _, Bangsa, dan _'",delay=0.03))
+    st.write_stream(text_stream("Or... just google 'Bagi kami, untukmu. _, Bangsa, dan _'",delay=0.03))
 
 def for_the_password():
-    with stylable_container(
-        key="show_more",
-        css_styles="""
-            button {
-                font-family: 'inherit';
-                background-color: 1e1e1e1e;
-                color: #ffffff;
-                border-radius: 50px;
-                transition-duration: 0.4s;
-            }
-            button:hover {
-            background-color: blue;
-            color: white;
-            border-style: dotted;
-            border-color: blue;
-            }
-            """,
-    ):
-        result = st.button("For the password",type="secondary")
-        if result:
-            show_tips()
+    clicked = ui.button("For the password", key="clk_btn_3",variant="secondary")
+    if clicked:
+        st.write("if you have colleague from ITB, ask them lmao.")
+        st.write("Or... just google 'Bagi kami, untukmu. _, Bangsa, dan _'")
+            
 
+def email_button():
+    with st.button("📫 Email me",key="email",type="secondary"):
+        st.button("📫 Email me",key="email",type="secondary")
+
+    
 def download_button():
     with stylable_container(
-        key="donlot",
+        key="cv_download",
         css_styles="""
             button {
                 font-family: 'inherit';
@@ -204,19 +198,53 @@ def download_button():
                 color: #ffffff;
                 border-radius: 50px;
                 transition-duration: 0.4s;
-            }
-            button:hover {
-            background-color: blue;
-            color: white;
-            border-style: dotted;
-            border-color: blue;
             }
             """,
     ):
         with open("data/seevee.pdf", "rb") as pdf_file_handle:
             btn = st.download_button(
-            label="donlot",
+            label="📄 Download CV",
             data=pdf_file_handle.read(),
             file_name="data/seevee.pdf",
-            mime="application/pdf"
+            mime="application/pdf",
+            type="secondary"
           )
+            
+def first_show_me():
+
+    cols1, cols2 = st.columns(2)
+
+    with cols1:
+        if st.session_state.first_proj=="":
+            project1 = st.empty()
+            st.page_link('pages/indonesia_data.py', label="Indonesia's Data 🇮🇩", icon='➡️')
+            project2 = st.empty()
+            st.page_link("pages/cloudflare_main_page.py", label="Testing Cloudflare LLMs ☁️", icon='➡️')
+            project3 = st.empty()
+            st.page_link('pages/terra.py', label='TERRA Impersonator 💯', icon='➡️')
+
+        else:
+            project1 = st.markdown(st.session_state.first_proj,unsafe_allow_html=True)
+            st.page_link('pages/indonesia_data.py', label="Indonesia's Data 🇮🇩", icon='➡️')
+            project2 = st.markdown(st.session_state.second_proj,unsafe_allow_html=True)
+            st.page_link("pages/cloudflare_main_page.py", label="Testing Cloudflare LLMs ☁️", icon='➡️')
+            project3 = st.markdown(st.session_state.third_proj,unsafe_allow_html=True)
+            st.page_link('pages/terra.py', label='TERRA Impersonator 💯', icon='➡️')
+        
+    with cols2:
+        if st.session_state.first_proj=="":
+            st.image("data/pengangguran.png",caption="Hover to find the button to full screen")
+            st.markdown("<medium></medium>",unsafe_allow_html=True)
+            st.markdown('#',unsafe_allow_html=True)
+            st.image("data/cloudflare.png",caption="Hover to find the button to full screen")
+            st.markdown("<medium></medium>",unsafe_allow_html=True)
+            st.markdown("<medium></medium>",unsafe_allow_html=True)
+            st.image("data/terra_chatbot.png",caption="Hover to find the button to full screen")
+        else:
+            st.image("data/pengangguran.png",caption="Hover to find the button to full screen")
+            st.markdown("<h2></h2>",unsafe_allow_html=True)
+            st.image("data/cloudflare.png",caption="Hover to find the button to full screen")
+            st.markdown("<h2></h2>",unsafe_allow_html=True)
+            st.image("data/terra_chatbot.png",caption="Hover to find the button to full screen")
+        for_the_password()
+    return project1, project2, project3
