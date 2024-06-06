@@ -33,22 +33,16 @@ def text_generation_inputs():
     return system_input
 
 
-def text_generation(system:str,user:str,payload:dict=None):
+def text_generation(payload:dict=None):
     API_BASE_URL = f"https://api.cloudflare.com/client/v4/accounts/{st.secrets['CLOUDFLARE_ID']}/ai/run/"
     headers = {"Authorization": f"Bearer {st.secrets['CLOUDFLARE_KEY']}"}
-    inputs = {
-        "prompt":[
-            {"role": "user", "content": user}
-        ]
-    }
-    testing = {
+
+    body = {
       "messages": st.session_state[f"{st.session_state.model_picked}"]
     }
-    testing.update(payload)
-    print(testing)
+    body.update(payload)
     try:
-        cloudflare_response = requests.post(f"{API_BASE_URL}{st.session_state.model_picked}", headers=headers, json=testing).json()
-        print(cloudflare_response)
+        cloudflare_response = requests.post(f"{API_BASE_URL}{st.session_state.model_picked}", headers=headers, json=body).json()
     except ConnectionRefusedError as err:
         st.write(err)
         raise err

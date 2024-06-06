@@ -26,18 +26,22 @@ if st.session_state.model_type_picked=="Text Generation":
         st.session_state[f"{st.session_state.model_picked}"] = []
     st.sidebar.caption("Text Generation Sidebar")
     system_input = text_generation_inputs()
+    if system_input!="" and len(st.session_state[f"{st.session_state.model_picked}"])==0:
+        st.session_state[f"{st.session_state.model_picked}"].append(
+            {"role": "system", "content": system_input}
+        )
     hyperparameter = text_gen_hyperparameter()
 
 for message in st.session_state[f"{st.session_state.model_picked}"]:
     if message["role"] == "user":
         with st.chat_message(message["role"],avatar="data/itb.jpg"):
             if type(message["content"]) == str:
-                st.markdown(message["content"])
+                st.markdown(f'<medium>{message["content"]}</medium>',unsafe_allow_html=True)
             else:
                 st.plotly_chart(message["content"])
-    else:
+    elif message["role"] == "model":
         with st.chat_message(message["role"],avatar="data/287981.jpg"):
-            st.markdown(message["content"])
+            st.markdown(f'<medium>{message["content"]}</medium>',unsafe_allow_html=True)
 
 if prompt := st.chat_input("Please explain the Indonesian independence on 17 of august 1945",max_chars=100):
     st.session_state[f"{st.session_state.model_picked}"].append({"role": "user", "content": prompt})
@@ -46,9 +50,9 @@ if prompt := st.chat_input("Please explain the Indonesian independence on 17 of 
 
     with st.chat_message("model",avatar="data/287981.jpg"):
         with st.spinner("What a difficult question... Let me think"):
-            stream = text_generation(system=system_input,user=prompt,payload=hyperparameter)
+            stream = text_generation(payload=hyperparameter)
 
-        response = st.write_stream(text_stream(stream,delay=0.03))
+        response = st.write_stream(text_stream(stream,delay=0.03,type="word"))
         st.session_state[f"{st.session_state.model_picked}"].append(
             {"role": "model", "content": response}
         )

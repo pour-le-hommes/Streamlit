@@ -11,21 +11,21 @@ if st.session_state["first_time"]==True:
         if message["role"] == "user":
             with st.chat_message(message["role"],avatar="data/itb.jpg"):
                 if type(message["parts"]) == str:
-                    st.markdown(message["parts"])
+                    st.markdown(f'<regular>{message["parts"]}</regular>',unsafe_allow_html=True)
                 else:
                     st.plotly_chart(message["parts"])
         else:
             with st.chat_message(message["role"],avatar="data/287981.jpg"):
-                st.markdown(message["parts"])
+                st.markdown(f'<regular>{message["parts"]}</regular>',unsafe_allow_html=True)
 
     if prompt := st.chat_input("What is up?"):
         st.session_state.chart_message.append({"role": "user", "parts": prompt})
         with st.chat_message("user",avatar="data/itb.jpg"):
-            st.markdown(prompt)
+            st.markdown(f'<regular>{prompt}</regular>',unsafe_allow_html=True)
 
         with st.chat_message("model",avatar="data/287981.jpg"):
             stream = generate_response(prompt=prompt,context_chat=st.session_state.chart_message,input_prompt=system_prompt(),max_tokens=100)
-            response = st.write_stream(text_stream(stream,delay=0.03))
+            response = st.write_stream(text_stream(stream,delay=0.03,type="word"))
             st.session_state.chart_message.append(
                 {"role": "model", "parts": response}
             )

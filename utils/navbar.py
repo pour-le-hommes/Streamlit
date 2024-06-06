@@ -13,7 +13,7 @@ def Navbar():
         if st.session_state["password_correct"]==True:
             st.page_link('pages/admin.py', label="Admin", icon='🔒')
         if st.button("Clear terminal?"):
-            for i in range(50):
+            for _ in range(50):
                 print("")
         # st.page_link('pages/password.py', label="Password Entry", icon='🧭')
 

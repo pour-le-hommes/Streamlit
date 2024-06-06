@@ -101,7 +101,7 @@ def pengangguran_chart():
                         {"role": "model", "parts": result}
                     )
             
-            st.write_stream(text_stream(result,delay=0.03))
+            st.write_stream(text_stream(result,delay=0.03,type="word"))
         llm_note()
     else:
         st.text("""
