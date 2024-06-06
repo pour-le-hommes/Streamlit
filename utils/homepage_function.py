@@ -237,7 +237,7 @@ def first_show_me():
             st.markdown("<medium></medium>",unsafe_allow_html=True)
             st.markdown("<medium></medium>",unsafe_allow_html=True)
             st.image("data/cloudflare.png",caption="Hover to find the button to full screen")
-            # st.markdown("<medium></medium>",unsafe_allow_html=True)
+            st.markdown("<medium></medium>",unsafe_allow_html=True)
             st.markdown("<medium></medium>",unsafe_allow_html=True)
             st.image("data/terra_chatbot.png",caption="Hover to find the button to full screen")
         else:
