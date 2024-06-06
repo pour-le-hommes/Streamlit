@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Plus Jakarta Sans'); 
 
 *  {font-family: 'Plus Jakarta Sans';}
-/* a {
+a {
     text-decoration: none;
     color: white !important;
     font-weight: 500;
@@ -17,7 +17,7 @@ ul {list-style-type: none;}
 hr {
     margin-top: 0px;
     margin-bottom: 5%;
-} */
+}
 
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
@@ -39,30 +39,6 @@ button[type="primary"] {
     color: #ffffff;
     background-color: #1e1e1e1e;
 }
-
-.st-emotion-cache-1v0mbdj, e115fcil1 img {
-    border-radius: 50%;
-    height: auto; 
-    width: auto; 
-    max-width: 300px; 
-    max-height: 300px;
-    overflow: hidden;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-/* .st-emotion-cache-90mtnx, ef3psqc13, button {
-    background-color: #331ce0;
-    border: none;
-    color: white;
-    padding: 16px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    transition-duration: 0.4s;
-    cursor: pointer;
-} */
   
 .button1 {
 background-color: white; 
@@ -74,32 +50,3 @@ border: 2px solid #04AA6D;
 background-color: #04AA6D;
 color: white;
 }
-/* 
-head {
-    font-family: 'Plus Jakarta Sans'; 
-    font-size: 22px;
-    font-weight: 500;
-    color: #091747;
-}
-
-body, [class*="css"] {
-    font-family: 'Plus Jakarta Sans'; 
-    font-size: 18px;
-    font-weight: 500;
-    color: #091747;
-}
-
-h2{
-    font-family: 'Plus Jakarta Sans';
-    font-weight: 500;
-    color: #ffffff;
-    background-color: #1e1e1e1e;
-}
-
-write_stream{
-    font-family: 'Plus Jakarta Sans';
-    font-size: 30;
-    font-weight: 500;
-    color: #ffffff;
-    background-color: #1e1e1e1e;
-} */

@@ -3,9 +3,10 @@ showSidebarNavigation = false
 
 [server]
 folderWatchBlacklist = ['pages']
+headless = true
+enableCORS=false
 
 [theme]
 base="dark"
 primaryColor="#FF2828"
 secondaryBackgroundColor="#1f1f1f"
-font="monospace"

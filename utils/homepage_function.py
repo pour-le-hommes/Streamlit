@@ -3,6 +3,8 @@ from utils.cloudflare.text_generation import text_generation
 from utils.Chatbot_config import text_stream
 import asyncio
 from streamlit_extras.stylable_container import stylable_container
+from streamlit_extras.row import row
+import streamlit_shadcn_ui as ui
 
 def run_async_task(task):
     loop = asyncio.new_event_loop()
@@ -101,7 +103,7 @@ async def first_project(proj1):
 <regular>► Integration with Gemini's LLM for further discussion</regular>
 """
     st.session_state.first_proj = full_text
-    proj1.write_stream(text_stream(full_text,delay=0.03,type="word"))
+    proj1.write_stream(text_stream(full_text,delay=0.01,type="word"))
     proj1.markdown(f"{full_text}",unsafe_allow_html=True)
 
 async def second_project(proj2):
@@ -119,11 +121,11 @@ async def second_project(proj2):
 """
     st.session_state.second_proj = full_text
 
-    proj2.write_stream(text_stream(full_text,delay=0.03,type="word"))
+    proj2.write_stream(text_stream(full_text,delay=0.01,type="word"))
     proj2.markdown(f"{full_text}",unsafe_allow_html=True)
 
 async def third_project(proj3):
-    full_text = """🏆<h2>Personal Chatbot</h2>
+    full_text = """<h2>🏆 Personal Chatbot</h2>
 
 <medium>How is it like to talk to TERRA?</medium>
 
@@ -136,7 +138,7 @@ async def third_project(proj3):
 <regular>► How companies can utilize these models</regular>
 """
     st.session_state.third_proj = full_text
-    proj3.write_stream(text_stream(full_text,delay=0.03,type="word"))
+    proj3.write_stream(text_stream(full_text,delay=0.01,type="word"))
     proj3.markdown(f"{full_text}",unsafe_allow_html=True)
 
 
@@ -146,28 +148,6 @@ async def project_list(prod1,prod2,prod3):
         second_project(prod2),
         third_project(prod3)
     )
-
-def change_state():
-    st.session_state.first_home = True
-
-def show_more():
-    with stylable_container(
-        key="show_more",
-        css_styles="""
-            button {
-                font-family: 'inherit';
-                background-color: 1e1e1e1e;
-                color: #ffffff;
-                border-radius: 20px;
-                transition-duration: 0.4s;
-            }
-            button:hover {
-            background-color: #f44336;
-            color: white;
-            }
-            """,
-    ):
-        st.button("Show more",on_click=change_state)
 
 
 def change_state_2():
@@ -197,47 +177,14 @@ def show_tips():
     st.write_stream(text_stream("Or... just google 'Bagi kami, untukmu. _, Bangsa, dan _'",delay=0.03))
 
 def for_the_password():
-    with stylable_container(
-        key="show_more",
-        css_styles="""
-            button {
-                font-family: 'inherit';
-                background-color: 1e1e1e1e;
-                color: #ffffff;
-                border-radius: 50px;
-                transition-duration: 0.4s;
-            }
-            button:hover {
-            background-color: blue;
-            color: white;
-            border-style: dotted;
-            border-color: blue;
-            }
-            """,
-    ):
-        result = st.button("For the password",type="secondary")
-        if result:
-            show_tips()
+    clicked = ui.button("For the password", key="clk_btn_3",variant="secondary")
+    if clicked:
+        st.write("if you have colleague from ITB, ask them lmao.")
+        st.write("Or... just google 'Bagi kami, untukmu. _, Bangsa, dan _'")
+            
 
 def email_button():
-    with stylable_container(
-        key="email",
-        css_styles="""
-            button {
-                font-family: 'inherit';
-                background-color: 1e1e1e1e;
-                color: #ffffff;
-                border-radius: 50px;
-                transition-duration: 0.4s;
-            }
-            button:hover {
-            background-color: blue;
-            color: white;
-            border-style: fill;
-            border-color: blue;
-            }
-            """
-    ):
+    with st.button("📫 Email me",key="email",type="secondary"):
         st.button("📫 Email me",key="email",type="secondary")
 
     
@@ -251,12 +198,6 @@ def download_button():
                 color: #ffffff;
                 border-radius: 50px;
                 transition-duration: 0.4s;
-            }
-            button:hover {
-            background-color: blue;
-            color: white;
-            border-style: fill;
-            border-color: blue;
             }
             """,
     ):
@@ -296,7 +237,6 @@ def first_show_me():
             st.markdown("<medium></medium>",unsafe_allow_html=True)
             st.markdown('#',unsafe_allow_html=True)
             st.image("data/cloudflare.png",caption="Hover to find the button to full screen")
-            st.markdown("<h1></h1>",unsafe_allow_html=True)
             st.markdown("<medium></medium>",unsafe_allow_html=True)
             st.markdown("<medium></medium>",unsafe_allow_html=True)
             st.image("data/terra_chatbot.png",caption="Hover to find the button to full screen")
