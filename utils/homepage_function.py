@@ -235,16 +235,16 @@ def first_show_me():
         if st.session_state.first_proj=="":
             st.image("data/pengangguran.png",caption="Hover to find the button to full screen")
             st.markdown("<medium></medium>",unsafe_allow_html=True)
-            st.markdown('#',unsafe_allow_html=True)
+            # st.markdown('#',unsafe_allow_html=True)
             st.image("data/cloudflare.png",caption="Hover to find the button to full screen")
-            st.markdown("<medium></medium>",unsafe_allow_html=True)
+            # st.markdown("<medium></medium>",unsafe_allow_html=True)
             st.markdown("<medium></medium>",unsafe_allow_html=True)
             st.image("data/terra_chatbot.png",caption="Hover to find the button to full screen")
         else:
             st.image("data/pengangguran.png",caption="Hover to find the button to full screen")
-            st.markdown("<h2></h2>",unsafe_allow_html=True)
+            # st.markdown("<h2></h2>",unsafe_allow_html=True)
             st.image("data/cloudflare.png",caption="Hover to find the button to full screen")
-            st.markdown("<h2></h2>",unsafe_allow_html=True)
+            # st.markdown("<h2></h2>",unsafe_allow_html=True)
             st.image("data/terra_chatbot.png",caption="Hover to find the button to full screen")
         for_the_password()
     return project1, project2, project3
