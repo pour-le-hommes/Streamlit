@@ -23,11 +23,12 @@ hr {
 footer {visibility: hidden;}
 header {visibility: hidden;}
 
-h1, medium{
+h1, large, medium{
     font-family: 'Plus Jakarta Sans';
     font-weight: 500;
     color: #ffffff;
 }
+
 
 medium{
     font-size: 20px;
