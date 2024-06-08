@@ -201,7 +201,7 @@ def download_button():
             }
             """,
     ):
-        with open("data/seevee.pdf", "rb") as pdf_file_handle:
+        with open("data/CV-BimaIRv3.2.pdf", "rb") as pdf_file_handle:
             btn = st.download_button(
             label="📄 Download CV",
             data=pdf_file_handle.read(),

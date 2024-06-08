@@ -23,7 +23,7 @@ async def document_formulas(empty_func,func:str):
         full_text = '''P(z|d) = \\frac{\\alpha_w + n_w^{(d)}}{\sum_w'(\\alpha_z' + n_z'^{(d)})}'''
         
     elif func=="COSIM":
-        full_text = '''Cosine\\text{ }Similarity(A,B) = \\frac{A.B}{\|A\|.\|B\|}'''
+        full_text = '''\\text{Cosine Similarity}(A,B) = \\frac{A.B}{\|A\|.\|B\|}'''
     
     if st.session_state[f"{func}"]==None:
         empty_func.write_stream(text_stream(full_text,delay=0.01))
@@ -44,7 +44,7 @@ def formula_section():
 
     formula_name,check = st.columns(2,gap="large")
     with formula_name:
-        st.subheader("TF (Term Frequency)")
+        st.subheader("Term Frequency (TF)")
     temp = st.empty()
     with check:
         if ui.button("Show formula",key="tf",variant="outline"):
@@ -52,7 +52,7 @@ def formula_section():
 
     formula_name,check = st.columns(2,gap="large")
     with formula_name:
-        st.subheader("IDF (Inverse Document Frequency)")
+        st.subheader("Inverse Document Frequency (IDF)")
     temp = st.empty()
     with check:
         if ui.button("Show formula",key="idf",variant="outline"):
