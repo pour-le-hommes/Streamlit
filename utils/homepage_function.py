@@ -201,7 +201,7 @@ def download_button():
             }
             """,
     ):
-        with open("data/seevee.pdf", "rb") as pdf_file_handle:
+        with open("data/CV-BimaIRv3.3.pdf", "rb") as pdf_file_handle:
             btn = st.download_button(
             label="📄 Download CV",
             data=pdf_file_handle.read(),
@@ -237,14 +237,14 @@ def first_show_me():
             st.markdown("<medium></medium>",unsafe_allow_html=True)
             st.markdown("<medium></medium>",unsafe_allow_html=True)
             st.image("data/cloudflare.png",caption="Hover to find the button to full screen")
-            # st.markdown("<medium></medium>",unsafe_allow_html=True)
+            st.markdown("<medium></medium>",unsafe_allow_html=True)
             st.markdown("<medium></medium>",unsafe_allow_html=True)
             st.image("data/terra_chatbot.png",caption="Hover to find the button to full screen")
         else:
             st.image("data/pengangguran.png",caption="Hover to find the button to full screen")
-            # st.markdown("<h2></h2>",unsafe_allow_html=True)
+            st.markdown("<h2></h2>",unsafe_allow_html=True)
             st.image("data/cloudflare.png",caption="Hover to find the button to full screen")
-            # st.markdown("<h2></h2>",unsafe_allow_html=True)
+            st.markdown("<h2></h2>",unsafe_allow_html=True)
             st.image("data/terra_chatbot.png",caption="Hover to find the button to full screen")
         for_the_password()
     return project1, project2, project3

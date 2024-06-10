@@ -8,6 +8,7 @@ def Navbar():
         st.page_link('pages/skills.py', label='Skills', icon='🛡️')
         st.page_link('pages/terra.py', label='TERRA Impersonator', icon='💯')
         st.page_link('pages/indonesia_data.py', label="Indonesia's Data", icon='🇮🇩')
+        st.page_link('pages/document_analysis.py', label="Document Analysis", icon='📄')
         with st.expander("Experimental"):
             st.page_link("pages/cloudflare_main_page.py", label="Testing Cloudflare LLMs", icon='☁️')
         if st.session_state["password_correct"]==True:
