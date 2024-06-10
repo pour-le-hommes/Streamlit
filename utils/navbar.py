@@ -2,7 +2,7 @@ import streamlit as st
 
 def Navbar():
     if "password_correct" not in st.session_state:
-        st.session_state["password_correct"] = False
+        st.session_state["password_correct"] = True
     with st.sidebar:
         st.page_link('main.py', label='Home page', icon='🔥')
         st.page_link('pages/skills.py', label='Skills', icon='🛡️')
