@@ -1,3 +1,5 @@
+## This website has depreciated. It has migrated to the website ai-portfolio-snowy.vercel.app
+
 # Personal Website
 
 My website built from Streamlit Python is an easy to code and use with very easy animation creation, chat with LLM, and more :D
