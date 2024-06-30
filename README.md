@@ -1,4 +1,4 @@
-## This website has depreciated. It has migrated to the website ai-portfolio-snowy.vercel.app
+## This website has depreciated. It has migrated to the website pourterra.com
 
 # Personal Website
 
