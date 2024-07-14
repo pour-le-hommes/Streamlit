@@ -23,8 +23,13 @@ def state_creation() -> None:
         st.session_state.first_load = True
 
     if "nltk_files" not in st.session_state:
+        download('punkt')
+        download('averaged_perceptron_tagger')
+        download('wordnet')
+        download('omw-1.4')
         download('wordnet')
         download('stopwords')
+        st.session_state.nltk_files = True
 
     if "document_added" not in st.session_state:
         st.session_state.document_added = None

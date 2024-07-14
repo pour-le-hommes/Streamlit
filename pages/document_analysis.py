@@ -8,13 +8,18 @@ import time
 from utils.Chatbot_config import text_stream
 import re
 from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk import FreqDist
+from nltk import FreqDist, pos_tag
+import nltk
 from nltk.stem import WordNetLemmatizer
-from nltk.corpus import stopwords
+from nltk.corpus import stopwords, wordnet
+import matplotlib.pyplot as plt
 
 import spacy
 from spacy import displacy
 import spacy.cli
+
+# Initialize lemmatizer
+lemmatizer = WordNetLemmatizer()
 
 # if "spacy_nlp" not in st.session_state:
 #     st.session_state.spacy_nlp = None
@@ -41,21 +46,32 @@ if st.session_state.first_load == True:
 if st.session_state.document_added == None:
     # Input document function
     ## Available for .pdf, .doc, and .docx
-    input_documents()
+    input_documents(testing=True)
 
-# text1 = nlp(st.session_state.document_added)
-# text1 = nlp("OpenCV is a library in Python that specializes in Computer Vision")
-# text2 = nlp("Llama 7B is a Large language model being used as an open sourced alternative to GhatGPT")
+# Function to convert NLTK POS tags to WordNet POS tags
+def get_wordnet_pos(tag):
+    if tag.startswith('J'):
+        return wordnet.ADJ
+    elif tag.startswith('V'):
+        return wordnet.VERB
+    elif tag.startswith('N'):
+        return wordnet.NOUN
+    elif tag.startswith('R'):
+        return wordnet.ADV
+    else:
+        return wordnet.NOUN
 
-
-# st.markdown(displacy.render(text1, style="ent"),unsafe_allow_html=True)
-# st.write("text 1")
-# for word in text1.ents:
-#     st.write(word.text,word.label_)
-
-# st.write("text 2")
-# for word in text2.ents:
-#     st.write(word.text,word.label_)
+def preprocess_text(text):
+    # Tokenize the text
+    tokens = word_tokenize(text)
+    
+    # POS tagging
+    tagged_tokens = pos_tag(tokens)
+    
+    # Lemmatize with POS tags
+    lemmatized_tokens = [lemmatizer.lemmatize(word, get_wordnet_pos(tag)) for word, tag in tagged_tokens]
+    
+    return lemmatized_tokens
 
 if (st.session_state.document_added != None) and (st.session_state.document_input == None):
     preprocessing()
@@ -63,11 +79,12 @@ if (st.session_state.document_added != None) and (st.session_state.document_inpu
 
 # tokenized = [word_tokenize(words) for large_splits in st.session_state.document_input for words in sent_tokenize(large_splits)]
 # st.write(tokenized)
-
+from wordcloud import WordCloud
 if st.session_state.document_input != None and st.session_state.vector_embedding == None:
     smaller_split = [splits.lower().split(" ") for splits in st.session_state.document_input]
     first_filter = [[re.sub('[^a-zA-Z]',"",each_word) for each_word in each_split if each_word not in stopwords.words('english')]  for each_split in smaller_split]
-    frequency = [FreqDist([lemmatizer.lemmatize(words) for words in batch]) for batch in first_filter]
+    full_filtered_list = FreqDist([i for j in first_filter for i in j])
+    frequency = [FreqDist(preprocess_text(' '.join(batch))) for batch in first_filter]
     # for asd in frequency:
     #     print(asd.elements())
     #     print()
@@ -90,7 +107,8 @@ if st.session_state.document_input != None and st.session_state.vector_embedding
         ##TODO: Add NER
         status.update(label="Term Frequency",state="running",expanded=True)
         st.write("Term Frequency")
-
+        wordcloud = WordCloud()
+        wordcloud.generate_from_frequencies(frequencies=full_filtered_list)
         st.session_state.t_f = "I'm good maybe?"
         status.update(label="Inverse Document Frequency",state="running",expanded=True)
         st.write("Inverse Document Frequency")
@@ -119,7 +137,11 @@ if st.session_state.document_input != None and st.session_state.vector_embedding
     st.subheader("Term Frequency")
     if st.session_state.t_f !=None:
         with st.expander("Result"):
-            st.write_stream(text_stream(st.session_state.t_f,delay=0.03))
+            fig, ax = plt.subplots()
+            ax.imshow(wordcloud, interpolation='bilinear')
+            ax.axis("off")
+            plt.show()
+            st.pyplot(fig)
 
 
 st.header("Formulas")
